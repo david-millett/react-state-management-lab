@@ -1,4 +1,4 @@
-// src/App.jsx
+
 import { useState } from "react";
 import './App.css'
 
@@ -88,34 +88,33 @@ const App = () => {
     } else {
       setMoney(money - newMember.price)
       const updatedTeam = [...team, newMember]
-      setTeam(updatedTeam)
       calculateTotalStrength(updatedTeam)
       calculateTotalAgility(updatedTeam)
+      setTeam(updatedTeam)
     }
   }
 
   const handleRemoveFighter = (deletedMember, idx) => {
     setMoney(money + deletedMember.price)
     const updatedTeam = [...team.slice(0, idx), ...team.slice(idx + 1)]
-    setTeam(updatedTeam)
     calculateTotalStrength(updatedTeam)
     calculateTotalAgility(updatedTeam)
+    setTeam(updatedTeam)
   }
 
   const calculateTotalStrength = (teamMembers) => {
-    teamMembers.forEach((member) => {
-      setTotalStrength(totalStrength + member.strength)
-    })
-  }
+    const newTotalStrength = teamMembers.reduce((accumulator, member) => {
+      return accumulator += member.strength
+  }, 0)
+  setTotalStrength(newTotalStrength)
+}
 
-  const calculateTotalAgility = (teamMembers) => {
-    teamMembers.forEach((member) => {
-      setTotalAgility(totalAgility + member.agility)
-    })
-  }
-
-  // console.log(zombieFighters)
-  console.log(team)
+const calculateTotalAgility = (teamMembers) => {
+  const newTotalAgility = teamMembers.reduce((accumulator, member) => {
+    return accumulator += member.agility
+}, 0)
+setTotalAgility(newTotalAgility)
+}
 
   return (
     <>
@@ -154,9 +153,6 @@ const App = () => {
           )
         })}
       </ul>
-
-
-      
     </>
   );
 }
